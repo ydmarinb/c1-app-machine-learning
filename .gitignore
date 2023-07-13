@@ -1,0 +1,56 @@
+# Entornos virtuales
+venv/
+env/
+env.bak/
+*.egg-info/
+.venv/
+.venv.bak/
+Scripts/
+share/
+Lib/
+pyvenv.cfg
+
+# Archivos y directorios generados durante la ejecución
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+logs/
+
+# Directorios y archivos de datos y modelos
+data/
+models/
+*.h5
+*.pth
+*.pickle
+*.pkl
+
+# Notebooks y archivos de salida
+.ipynb_checkpoints/
+*.ipynb
+*.html
+
+# Configuraciones y variables de entorno
+config.ini
+.env
+
+# Archivos generados por pytest
+pytest_cache/
+pytest_debug.log
+
+# Otros archivos generados o específicos del proyecto
+results/
+output/
+secret_key.py
+
+# Archivo de credenciales y configuraciones sensibles
+credentials.json
+secrets.json
+
+# Directorio de almacenamiento de dependencias
+lib/
