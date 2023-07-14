@@ -1,45 +1,62 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
 import pickle
 
-# Crear una instancia de la aplicación FastAPI
-app = FastAPI()
 
-# Definir el modelo de datos utilizando Pydantic
-class Variables(BaseModel):
-    sepal_length: float
-    sepal_width: float
-    petal_length: float
-    petal_width: float
+def predict(request):
+    variables = request.get_json()
 
-# Ruta POST para la predicción
-@app.post('/')
-def predict(variables: Variables):
-    # Cargar el modelo entrenado
-    rf = load_model()
+    print(variables)
+    print(variables['sepal_length'])
+
     
+    # Cargar el modelo desde el almacenamiento local por defecto
+    model = load_model_locally()  
+
     # Realizar la predicción utilizando el modelo cargado
-    prediction = make_prediction(rf, variables)
-    
+    prediction = make_prediction(model, variables)
+
     # Retornar la predicción como resultado de la función
     return {'prediction': prediction}
 
-
-def load_model():
-    # Cargar el modelo entrenado desde el archivo pickle
+def load_model_locally():
+    # Cargar el modelo entrenado desde el archivo pickle local
+    
     with open('model_v1.pkl', 'rb') as f:
-        rf = pickle.load(f)
-    return rf
+        model = pickle.load(f)
 
+    return model
 
 def make_prediction(model, variables):
     # Crear una lista con las variables ingresadas
-    new_variables = [[variables.sepal_length, variables.sepal_width, variables.petal_length, variables.petal_width]]
     
+    new_variables = [[variables['sepal_length'], variables['sepal_width'], variables['petal_length'], variables['petal_width']]]
+
     # Realizar la predicción utilizando el modelo cargado
     prediction = int(model.predict(new_variables)[0])
     return prediction
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", port=8000, reload=True)
+# Entrypoint function for Cloud Function
+def entry_point(request):
+    return predict(request)
+
+
+# Correr el modelo desde local
+'''
+curl -m 70 -X POST https://us-central1-ydmarinb.cloudfunctions.net/app-model-v1 \
+-H "Authorization: bearer $(gcloud auth print-identity-token)" \
+-H "Content-Type: application/json" \
+-d '{
+  "sepal_length": 5.1,
+  "sepal_width": 3.5,
+  "petal_length": 1.4,
+  "petal_width": 0.2
+}'
+'''
+
+'''
+curl -m 70 -X POST https://us-central1-ydmarinb.cloudfunctions.net/app-model-v1 -H "Authorization: bearer $(gcloud auth print-identity-token)" -H "Content-Type: application/json" -d '{
+  "sepal_length": 6.1,
+  "sepal_width": 2.9,
+  "petal_length": 4.7,
+  "petal_width": 1.4
+}'
+'''
