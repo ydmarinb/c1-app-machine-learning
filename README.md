@@ -15,3 +15,7 @@
 
 
 * python -m pip install scikit-learn==1.2.1
+
+
+
+# pip freeze > requirements.txt

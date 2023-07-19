@@ -1,0 +1,25 @@
+steps:
+  # Ejecutar el archivo Python, leer el nombre del archivo y desplegar la Cloud Function
+  - name: 'gcr.io/ydmarinb/deploy-build'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "============================"
+        echo instalar pip
+        echo "============================"
+        python3 -m pip install --user pip
+        echo "============================"
+        echo "Instalando los requisitos de Python"
+        echo "============================"
+        pip3 install -r requirements.txt
+        echo "Ejecutando el comando adicional"
+        python3 ./download_model.py
+        echo "============================"
+        echo "Desplegando la Cloud Function"
+        echo "============================"
+        gcloud functions deploy modelo --runtime=python311 --trigger-http --allow-unauthenticated --source=. --entry-point=entry_point
+    # Paso para ejecutar el archivo Python, leer el nombre del archivo y desplegar la Cloud Function con endpoint personalizado
+
+options:
+  logging: CLOUD_LOGGING_ONLY

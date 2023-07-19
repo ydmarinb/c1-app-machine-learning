@@ -13,3 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Especifica el comando que se ejecutará al iniciar el contenedor
 CMD uvicorn main:app
+
+
+# docker build -t nombre_imagen .
+# docker run --rm -p 8000:8000 nombre_imagen
+# docker build -t gcr.io/gcp-devops

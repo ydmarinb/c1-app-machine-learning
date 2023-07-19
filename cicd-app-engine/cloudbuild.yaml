@@ -1,0 +1,9 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['app', 'deploy', '--version', 'v${SHORT_SHA}', '--project', 'ydmarinb', '--promote', '--no-stop-previous-version']
+    # Agrega el nombre de la API y configura la transferencia de solo una parte del tráfico
+    # '--promote' promueve la versión a recibir tráfico automáticamente
+    # '--no-stop-previous-version' evita detener la versión anterior
+
+options:
+  logging: CLOUD_LOGGING_ONLY
