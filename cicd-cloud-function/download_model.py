@@ -11,7 +11,7 @@ def download_latest_file(bucket_name):
     blobs = list(bucket.list_blobs())
 
     # Ordena los blobs por fecha de creación de forma descendente
-    blobs.sort(key=lambda x: x.time_created, reverse=True)
+    blobs.sort(key=lambda x: x.time_created, reverse=True) 
 
     if len(blobs) > 0:
         latest_blob = blobs[0]

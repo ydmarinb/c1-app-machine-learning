@@ -22,7 +22,7 @@ def load_latest_model():
     pkl_files = glob.glob('*.pkl')
 
     if pkl_files:
-        latest_model_file = pkl_files[0]  
+        latest_model_file = pkl_files[0]   
 
         # Cargar el último modelo `pkl`
         with open(latest_model_file, 'rb') as f:

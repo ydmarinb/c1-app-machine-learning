@@ -1,0 +1,20 @@
+steps:
+  # Instala los requisitos de Python (si es necesario) y realiza las pruebas
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/model', '.']
+    # Construye la imagen de Docker
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/model']
+    # Sube la imagen a Google Container Registry (GCR)
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud run deploy model --image gcr.io/$PROJECT_ID/model --platform managed --region us-central1 --allow-unauthenticated
+    # Despliega la imagen en Cloud Run
+
+options:
+  logging: CLOUD_LOGGING_ONLY
